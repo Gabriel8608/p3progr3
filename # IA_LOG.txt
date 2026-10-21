@@ -1,0 +1,19 @@
+# IA_LOG - Registro de uso de Inteligencia Artificial
+
+## Herramienta utilizada
+- **Asistente:** Geminy y deepseek
+- **Fecha de uso:** Octubre 2026
+
+## Prompts principales utilizados
+1. *"Genera el diseño de clases DTO para las APIs de DummyJSON, Frankfurter y JSONPlaceholder en Kotlin."*
+2. *"Propón una arquitectura MVVM con Retrofit y Room para una app de Android que consume 3 APIs."*
+3. *"¿Cómo implementar un `ViewModelFactory` manual sin usar Hilt?"*
+
+## Decisiones de diseño propuestas por la IA y cambios realizados
+
+| Propuesta de la IA | Cambio realizado | Justificación |
+| :--- | :--- | :--- |
+| **Usar Hilt para inyección de dependencias** | Se implementó un **AppContainer manual** en la clase `Application`. | El proyecto es de tamaño medio y el docente evalúa la comprensión de las capas. Usar un contenedor manual demuestra mayor dominio técnico y evita la sobrecarga de configurar plugins y anotaciones de Hilt. |
+| **Una sola entidad de Room para todos los datos (Productos, Rates, Posts)** | Se creó únicamente **`ProductoFavoritoEntity`**. | El requisito solo pide guardar "productos favoritos". Guardar rates o posts no tiene sentido para el negocio. |
+| **Usar `LiveData` para la UI** | Se cambió a **`StateFlow`**. | `StateFlow` es la recomendación actual de Google para Jetpack Compose, ya que se integra de forma nativa con la función `collectAsStateWithLifecycle()`. |
+| **Usar un solo `Retrofit` para las 3 APIs** | Se crearon **3 instancias de Retrofit** dentro del `AppContainer`. | DummyJSON, Frankfurter y JSONPlaceholder tienen diferentes `baseUrl` (`dummyjson.com`, `api.frankfurter.dev`, `jsonplaceholder.typicode.com`). Retrofit solo permite una `baseUrl` por instancia. |
